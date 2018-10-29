@@ -44,11 +44,11 @@ public class PercentChangeInFEmployment {
 			
 			String[] columnSplit = parsedInput(value);
 			
-			if (columnSplit[1].equals(WORLD)){
-				if (columnSplit[3].equals(WorldFemaleEmploymentFrom2000)){
+			if (columnSplit[COUNTRYABB].equals(WORLD)){
+				if (columnSplit[SERIESCODE].equals(WorldFemaleEmploymentFrom2000)){
 					for (int index = YEAR2000; index < columnSplit.length; index++){
 						if (!columnSplit[index].equals(EMPTY)){
-							context.write(new Text(columnSplit[1]), new DoubleWritable(Double.parseDouble(columnSplit[index])));
+							context.write(new Text(columnSplit[COUNTRYABB]), new DoubleWritable(Double.parseDouble(columnSplit[index])));
 						}
 					}
 				}
@@ -71,13 +71,13 @@ public class PercentChangeInFEmployment {
 			double Y2K16 = 0.0;
 			
 			if (values.iterator().hasNext()){
-				Y2K = values.iterator().next().get();
-			}
-			while(values.iterator().hasNext()){
 				Y2K16 = values.iterator().next().get();
 			}
+			while(values.iterator().hasNext()){
+				Y2K = values.iterator().next().get();
+			}
 			
-			context.write(new Text("Percent Change in Female Employment From 2000"), new DoubleWritable(DoubleFormat((Y2K16-Y2K)/Y2K)));	
+			context.write(new Text("Percent Change in Female Employment From 2000"), new DoubleWritable(100.0*DoubleFormat((Y2K16-Y2K)/Y2K)));	
 		}
 		
 	}

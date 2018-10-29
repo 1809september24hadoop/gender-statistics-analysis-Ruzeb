@@ -44,7 +44,7 @@ public class CountriesFGraduatesLtThirty {
 			String[] columnSplit = parsedInput(value);
 			
 			//map three most recent percentages (if possible)
-			if (columnSplit[3].equals(TERTIARYGRAD)){
+			if (columnSplit[SERIESCODE].equals(TERTIARYGRAD)){
 				for (int index = columnSplit.length - 1, counter = 3; counter > 0 && index > YEAR1960; index--){
 					if (!columnSplit[index].equals(EMPTY)){
 						context.write(new Text(columnSplit[0]), new DoubleWritable(Double.parseDouble(columnSplit[index])));

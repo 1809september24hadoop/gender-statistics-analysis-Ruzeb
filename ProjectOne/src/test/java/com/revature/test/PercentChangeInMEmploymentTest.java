@@ -93,7 +93,7 @@ public class PercentChangeInMEmploymentTest {
 
 		reduceDriver.withInput(new Text(WORLD), values);
 
-		reduceDriver.withOutput(new Text("Percent Change in Male Employment From 2000"), new DoubleWritable(DoubleFormat((72.0073062034121 - 73.7461080032518)/73.7461080032518)));
+		reduceDriver.withOutput(new Text("Percent Change in Male Employment From 2000"), new DoubleWritable(100.0*DoubleFormat(-(72.0073062034121 - 73.7461080032518)/73.7461080032518)));
 
 		/*
 		 * Run the test.
@@ -110,7 +110,7 @@ public class PercentChangeInMEmploymentTest {
 		mapReduceDriver.addInput(new LongWritable(1), new Text(input1));
 
 
-		mapReduceDriver.addOutput(new Text("Percent Change in Male Employment From 2000"), new DoubleWritable(DoubleFormat((72.0073062034121 - 73.7461080032518)/73.7461080032518)));
+		mapReduceDriver.addOutput(new Text("Percent Change in Male Employment From 2000"), new DoubleWritable(100.0*DoubleFormat(-(72.0073062034121 - 73.7461080032518)/73.7461080032518)));
 
 		/*
 		 * Run the test.

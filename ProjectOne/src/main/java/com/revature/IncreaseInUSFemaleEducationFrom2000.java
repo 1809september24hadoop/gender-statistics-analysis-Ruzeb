@@ -36,7 +36,6 @@ public class IncreaseInUSFemaleEducationFrom2000 {
 		public DoubleArrayWritable() {
 			super(DoubleWritable.class);
 		}
-
 	}
 
 	/*
@@ -55,8 +54,8 @@ public class IncreaseInUSFemaleEducationFrom2000 {
 			
 			String[] columnSplit = parsedInput(value);
 			
-			if (columnSplit[1].equals(USA)){
-				if (columnSplit[3].equals(PRIMARYENROLLMENTFEMALES) || columnSplit[3].equals(SECONDARYENROLLMENTFEMALES)){
+			if (columnSplit[COUNTRYABB].equals(USA)){
+				if (columnSplit[SERIESCODE].equals(PRIMARYENROLLMENTFEMALES) || columnSplit[SERIESCODE].equals(SECONDARYENROLLMENTFEMALES)){
 					List<DoubleWritable> arrList = new ArrayList<>();
 					
 					for (int index = YEAR2000; index < columnSplit.length; index++){
@@ -66,7 +65,7 @@ public class IncreaseInUSFemaleEducationFrom2000 {
 					}
 					DoubleArrayWritable arr = new DoubleArrayWritable();
 					arr.set(arrList.toArray(new DoubleWritable[arrList.size()]));
-					context.write(new Text(columnSplit[2]), arr);
+					context.write(new Text(columnSplit[DESC]), arr);
 				}
 			}
 		}	

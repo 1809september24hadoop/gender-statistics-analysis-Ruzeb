@@ -14,7 +14,7 @@ public class Utility {
 	
 	public static final int YEAR1960 = 4;
 	public static final int YEAR2000 = 44;
-	public static final int SERIESCODES = 3;
+	public static final int SERIESCODE = 3;
 	public static final int DESC = 2;
 	public static final int COUNTRYABB = 1;
 	public static final int COUNTRY = 0;

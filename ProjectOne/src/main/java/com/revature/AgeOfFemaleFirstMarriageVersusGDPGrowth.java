@@ -43,22 +43,22 @@ public class AgeOfFemaleFirstMarriageVersusGDPGrowth {
 			// parse the data by splitting on ","
 			String[] columnSplit = parsedInput(value);
 			
-			if (columnSplit[3].equals(AGEFIRSTMARRIAGE)){
+			if (columnSplit[SERIESCODE].equals(AGEFIRSTMARRIAGE)){
 				MapWritable age = new MapWritable();
 				for (int index = columnSplit.length-1; index > YEAR1960; index--){
 					if (!columnSplit[index].equals(EMPTY)){
 						age.put(new Text(AGEFIRSTMARRIAGE), new DoubleWritable(Double.parseDouble(columnSplit[index])));
-						context.write(new Text(columnSplit[1]), age);
+						context.write(new Text(columnSplit[COUNTRYABB]), age);
 						break;
 					}
 				}
 			}
-			if (columnSplit[3].equals(GDPGROWTH)){
+			if (columnSplit[SERIESCODE].equals(GDPGROWTH)){
 				MapWritable gdp = new MapWritable();
 				for (int index = columnSplit.length-1; index > YEAR1960; index--){
 					if (!columnSplit[index].equals(EMPTY)){
 						gdp.put(new Text(GDPGROWTH), new DoubleWritable(Double.parseDouble(columnSplit[index])));
-						context.write(new Text(columnSplit[1]), gdp);
+						context.write(new Text(columnSplit[COUNTRYABB]), gdp);
 						break;
 					}
 				}
@@ -76,15 +76,15 @@ public class AgeOfFemaleFirstMarriageVersusGDPGrowth {
 	public static class AgeAndGDPGrowthCombiner extends Reducer<Text, MapWritable, Text, DoubleWritable>{
 		
 		public static DoubleWritable GROUP1 = new DoubleWritable();
-		public static volatile double G1COUNT = 1.0;
+		public static volatile double G1COUNT = 0.0;
 		public static volatile DoubleWritable GROUP2 = new DoubleWritable();
-		public static volatile double G2COUNT = 1.0;
+		public static volatile double G2COUNT = 0.0;
 		public static volatile DoubleWritable GROUP3 = new DoubleWritable();
-		public static volatile double G3COUNT = 1.0;
+		public static volatile double G3COUNT = 0.0;
 		public static volatile DoubleWritable GROUP4 = new DoubleWritable();
-		public static volatile double G4COUNT = 1.0;
+		public static volatile double G4COUNT = 0.0;
 		public static volatile DoubleWritable GROUP5 = new DoubleWritable();
-		public static volatile double G5COUNT = 1.0;
+		public static volatile double G5COUNT = 0.0;
 		
 		@Override
 		public void reduce(Text key, Iterable<MapWritable> values, Context context) throws IOException, InterruptedException{
@@ -97,7 +97,6 @@ public class AgeOfFemaleFirstMarriageVersusGDPGrowth {
 			for (MapWritable mw : values){
 				for (Writable txt : mw.keySet()){
 					if (((Text)txt).toString().equals(AGEFIRSTMARRIAGE)){
-						
 						age = mw;
 						ageVal = (DoubleWritable) mw.get(txt);
 					}
@@ -138,24 +137,19 @@ public class AgeOfFemaleFirstMarriageVersusGDPGrowth {
 		@Override
 		protected void cleanup(Context context) throws IOException, InterruptedException {
 
-			if (G1COUNT > 1.0){
-				G1COUNT--;
+			if (G1COUNT > 0.0){
 				context.write(new Text("Age < 20"), new DoubleWritable(DoubleFormat(GROUP1.get()/G1COUNT)));
 			}
-			if (G2COUNT > 1.0){
-				G2COUNT--;
+			if (G2COUNT > 0.0){
 				context.write(new Text("20 <= Age <= 23"), new DoubleWritable(DoubleFormat(GROUP2.get()/G2COUNT)));
 			}
-			if (G3COUNT > 1.0){
-				G3COUNT--;
+			if (G3COUNT > 0.0){
 				context.write(new Text("23 < Age <= 27"), new DoubleWritable(DoubleFormat(GROUP3.get()/G3COUNT)));
 			}
-			if (G4COUNT > 1.0){
-				G4COUNT--;
+			if (G4COUNT > 0.0){
 				context.write(new Text("27 < Age <= 30"), new DoubleWritable(DoubleFormat(GROUP4.get()/G4COUNT)));
 			}
-			if (G5COUNT > 1.0){
-				G5COUNT--;
+			if (G5COUNT > 0.0){
 				context.write(new Text("Age > 30"), new DoubleWritable(DoubleFormat(GROUP5.get()/G5COUNT)));
 			}
 		}
